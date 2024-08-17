@@ -1,4 +1,9 @@
 
+using Task_Test.Endpoints.AuthEndpoints;
+using Task_Test.Endpoints.ClientsEndpoints;
+using Task_Test.Service;
+using Task_Test.Service.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddControllers().AddFluentValidation(x =>
@@ -8,9 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
         x.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
     });
 
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Services.AddHttpContextAccessor();
+     builder.Services.AddEndpointsApiExplorer();
+     builder.Services.AddSwaggerGen(options => options.Configure());
+     builder.Services.AddHttpContextAccessor();
 
     builder.Services.AddDbContextPool<StoreContext>(x =>
     {
@@ -58,6 +63,7 @@ var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddSingleton(authSettings);
         builder.Services.AddSingleton(tokenValidationParamters);
+        builder.Services.AddScoped<IAuthService, InitialAuthService>();
         builder.Services.AddAuthorizationBuilder()
             .AddPolicy("Admin", policy => policy.RequireRole("Admin"))
             .AddPolicy("user", policy => policy.RequireRole("user"));
@@ -82,6 +88,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapClientEndpoints();
+app.MapAuthEnPoints();
 app.UseCors(cp => cp.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseStaticFiles();
 app.Run();

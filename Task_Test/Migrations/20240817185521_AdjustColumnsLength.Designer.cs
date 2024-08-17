@@ -12,8 +12,8 @@ using Task_Test.DataContext;
 namespace Task_Test.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240816225124_initial")]
-    partial class initial
+    [Migration("20240817185521_AdjustColumnsLength")]
+    partial class AdjustColumnsLength
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,23 +57,23 @@ namespace Task_Test.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "8a2bdde3-517d-4892-b56c-75e52633e442",
-                            Name = "Writer",
-                            NormalizedName = "WRITER"
+                            ConcurrencyStamp = "ec54ac6a-89a6-4c9d-99d6-abb013e9bc28",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ee91619b-fbd7-4963-a684-586ce43e759f",
-                            Name = "Editor",
-                            NormalizedName = "EDITOR"
+                            ConcurrencyStamp = "960b885d-20c9-4f36-bfb3-5d3a88f1cba1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "4950aac7-f90f-4b18-b200-8c81acb489f9",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            ConcurrencyStamp = "09a1a346-b0e2-4e98-ace6-cac1899573b0",
+                            Name = "SubAdmin",
+                            NormalizedName = "SUBADMIN"
                         });
                 });
 
@@ -114,32 +114,15 @@ namespace Task_Test.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountCreationDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("تاريخ _الادخال");
-
-                    b.Property<int>("AddedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("العنوان");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("DateModified")
-                        .HasColumnType("nvarchar")
-                        .HasColumnName(" تاريخ_التعديل");
-
-                    b.Property<string>("District")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("اسم_الحي");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -148,29 +131,11 @@ namespace Task_Test.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Job")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("الوظيفة");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("ModifiedBY")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("اسم_العميل");
-
-                    b.Property<string>("Natinality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("الجنسية");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -190,11 +155,6 @@ namespace Task_Test.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Residence")
-                        .IsRequired()
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("الاقامة");
 
                     b.Property<string>("SecurityStamp")
                         .HasMaxLength(128)
@@ -218,6 +178,10 @@ namespace Task_Test.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AppUser", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.AppUserClaim", b =>
@@ -314,24 +278,77 @@ namespace Task_Test.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserPhoneId"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("Mobile")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("TelephoneOne")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("TelephoneTwo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("WhatsApp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("UserPhoneId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("UserPhone");
+                });
+
+            modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>
+                {
+                    b.HasBaseType("Task_Test.DataContext.Models.User.AppUser");
+
+                    b.Property<DateOnly>("AccountCreationDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("AddedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateOnly?>("DateModified")
+                        .HasColumnType("date");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Job")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("ModifiedBY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Natinality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Residence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasDiscriminator().HasValue("Client");
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.AppRoleClaim", b =>
@@ -387,16 +404,16 @@ namespace Task_Test.Migrations
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.UserPhone", b =>
                 {
-                    b.HasOne("Task_Test.DataContext.Models.User.AppUser", "User")
+                    b.HasOne("Task_Test.DataContext.Models.User.Client", "Client")
                         .WithMany("Phones")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Task_Test.DataContext.Models.User.AppUser", b =>
+            modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>
                 {
                     b.Navigation("Phones");
                 });

@@ -39,14 +39,4 @@ namespace Task_Test.DataContext.Configuration
             builder.HasMany<AppUserToken>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
         }
     }
-    public class UserPhoneConfig : IEntityTypeConfiguration<UserPhone>
-    {
-        public void Configure(EntityTypeBuilder<UserPhone> builder)
-        {
-            builder.Property(x => x.Mobile).HasColumnType("nvarchar");
-            builder.Property(x => x.TelephoneOne).HasColumnType("nvarchar");
-            builder.Property(x => x.TelephoneTwo).HasColumnType("nvarchar");
-            builder.Property(x => x.WhatsApp).HasColumnType("nvarchar");
-        }
-    }
 }

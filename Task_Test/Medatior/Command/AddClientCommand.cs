@@ -1,45 +1,62 @@
-﻿using FluentValidation;
-using Mediator;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Mediator;
 using Microsoft.AspNetCore.Mvc;
-using OneOf;
-using PhoneNumbers;
-using System.ComponentModel.DataAnnotations;
+
+using System.Text.Json.Serialization;
 
 namespace Task_Test.Medatior.Command
 {
-    public class AddClientCommand:IRequest<OneOf<OkObjectResult,BadRequestObjectResult>>
+    public class AddClientCommand:IRequest<ResponseResult>
     {
-        public string Name { get; set; }
-        public string District { get; set; } // الحي
-        public string Address { get; set; } // العنوان
-        public string Nationality { get; set; } // الجنسية
-        public string Job { get; set; } // الوظيفة
-        public string Residence { get; set; }  // الاقامة
-        public string Phone { get; set; }
+        [FromBody]
+        [JsonPropertyName("اسم_العميل")]
+        public string ClientName { get; set; }
+
+        [FromBody]
+        [JsonPropertyName("الحي")]
+        public string District { get; set; } 
+
+        [FromBody]
+        [JsonPropertyName("العنوان")]
+        public string Address { get; set; } 
+
+        [FromBody]
+        [JsonPropertyName("الجنسية")]
+        public string Nationality { get; set; }
+
+        [FromBody]
+        [JsonPropertyName("الوظيفة")]
+        public string Job { get; set; }
+
+        [FromBody]
+        [JsonPropertyName("الاقامة")]
+        public string Residence { get; set; }
+        [FromBody]
+        [JsonPropertyName("الايميل")]
+        public string Email { get; set; }
+
+        [FromBody]
+        [JsonPropertyName("الارقام")]
+        public List<UserPhoneDto> Phones { get; set; } = [];
+    }
+    public class UserPhoneDto
+    {
+        [JsonPropertyName("موبايل")]
+        public string Mobile { get; set; }
+
+        [JsonPropertyName("تليفون_1")]
+        public string TelephoneOne { get; set; }
+
+        [JsonPropertyName("تليفون_2")]
+        public string TelephoneTwo { get; set; }
+
+        [JsonPropertyName("واتساب")]
+        public string WhatsApp { get; set; }
     }
 
-    public class ValidateClient :AbstractValidator<AddClientCommand> 
+    public class ResponseResult
     {
-        public ValidateClient()
-        {
-            RuleFor(x => x.Name).NotEmpty().NotNull().MaximumLength(50);
-            RuleFor(x=>x.District).NotEmpty().NotNull();
-            RuleFor(x=>x.Address).NotEmpty().MaximumLength(200);
-            RuleFor(x=>x.Job).NotEmpty().NotNull();
-            RuleFor(x=>x.Nationality).NotEmpty().NotNull();
-            RuleFor(x=>x.Phone)
-                .Must(BeValidPhoneNumber)
-                .NotEmpty().NotNull();
-
-        }
-        private bool BeValidPhoneNumber(string phoneNumber)
-        {
-            var phoneNumberUtil = PhoneNumberUtil.GetInstance();
-                  
-                var numberProto = phoneNumberUtil.Parse(phoneNumber, null);
-                return phoneNumberUtil.IsValidNumber(numberProto);
-                
-        }
+        public string message { get; set; }
+        public bool Success { get; set; }
     }
+
 }

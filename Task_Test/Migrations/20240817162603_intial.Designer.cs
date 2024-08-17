@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Task_Test.DataContext;
 
@@ -11,9 +12,11 @@ using Task_Test.DataContext;
 namespace Task_Test.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240817162603_intial")]
+    partial class intial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,21 +57,21 @@ namespace Task_Test.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "95b245c8-facd-4f46-b3ad-10bd9224eee8",
+                            ConcurrencyStamp = "42fa48fb-20ac-421f-9a92-bf21b75c0203",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "26fa8777-99e9-4b58-8c04-ab3099fb8771",
+                            ConcurrencyStamp = "21c030b2-0bd7-4b3a-908d-e2de073840fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "51df5fca-3bd0-4eb4-981c-39752a1f6d5f",
+                            ConcurrencyStamp = "1014e287-6b7b-47db-9325-facbec8f41e1",
                             Name = "SubAdmin",
                             NormalizedName = "SUBADMIN"
                         });
@@ -284,16 +287,19 @@ namespace Task_Test.Migrations
 
                     b.Property<string>("Mobile")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneOne")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneTwo")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("WhatsApp")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.HasKey("UserPhoneId");
 
@@ -306,41 +312,42 @@ namespace Task_Test.Migrations
                 {
                     b.HasBaseType("Task_Test.DataContext.Models.User.AppUser");
 
-                    b.Property<DateOnly>("AccountCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("AccountCreationDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.Property<int>("AddedByUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
-                    b.Property<DateOnly?>("DateModified")
-                        .HasColumnType("date");
+                    b.Property<string>("DateModified")
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("District")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Job")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<int?>("ModifiedBY")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Natinality")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Residence")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.HasDiscriminator().HasValue("Client");
                 });

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Task_Test.DataContext;
 
@@ -11,9 +12,11 @@ using Task_Test.DataContext;
 namespace Task_Test.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240817185242_AdjustColumnLength")]
+    partial class AdjustColumnLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,21 +57,21 @@ namespace Task_Test.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "95b245c8-facd-4f46-b3ad-10bd9224eee8",
+                            ConcurrencyStamp = "2269ef26-e09e-4966-a757-72d662bf2a70",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "26fa8777-99e9-4b58-8c04-ab3099fb8771",
+                            ConcurrencyStamp = "63cd3e15-af64-434a-9603-85abe6a963c4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "51df5fca-3bd0-4eb4-981c-39752a1f6d5f",
+                            ConcurrencyStamp = "6ff49dd9-4ffd-4873-8d39-c599072aefe6",
                             Name = "SubAdmin",
                             NormalizedName = "SUBADMIN"
                         });
@@ -284,16 +287,19 @@ namespace Task_Test.Migrations
 
                     b.Property<string>("Mobile")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneOne")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("TelephoneTwo")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("WhatsApp")
-                        .HasColumnType("nvarchar(200)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar");
 
                     b.HasKey("UserPhoneId");
 

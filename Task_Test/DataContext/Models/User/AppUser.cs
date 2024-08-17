@@ -16,14 +16,14 @@ namespace Task_Test.DataContext.Models.User
         public int ClientId { get; set; }
         public Client Client { get; set; }
         public string Mobile { get; set; }
-        public string TelephoneOne { get; set; }
-        public string TelephoneTwo { get; set; }
-        public string WhatsApp { get; set;}
+        public string? TelephoneOne { get; set; }
+        public string? TelephoneTwo { get; set; }
+        public string? WhatsApp { get; set;}
 
         [MaxLength(4)]
-        public string? CountryCode { get; set; }
+        public string? CountryCode { get; set; } // remove
     }
-    public class Client
+    public class Client:AppUser
     {
         public int Id { get; set; }
         public string Name { get; set; }
