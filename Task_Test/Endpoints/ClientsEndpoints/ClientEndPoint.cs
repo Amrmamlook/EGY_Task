@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Planta_BackEnd.Filters;
 using Task_Test.Medatior.Command;
+using Task_Test.Medatior.Query;
 
 namespace Task_Test.Endpoints.ClientsEndpoints
 {
@@ -13,17 +14,22 @@ namespace Task_Test.Endpoints.ClientsEndpoints
 
             group.MapPost( "AddClient",AddClient).AddEndpointFilter<ValidatorFilter<AddClientCommand>>()
                 .RequireAuthorization("Admin");
-            
+
+            group.MapGet("Clients",GetClients);
         }
-        static async Task<IResult> AddClient( [FromBody]AddClientCommand command , [FromServices] IMediator mediator)
+        public static async Task<IResult> AddClient( [FromBody]AddClientCommand command , [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Results.Ok(result);
         }
-        static async Task<IResult> GetClients([FromServices] StoreContext db)
+        static async Task<IResult> GetClients(
+           [FromServices] IMediator mediator,
+            int pageNumber = 1,
+            int pageSize = 5)
         {
+            var result = await mediator.Send(new GetClientsQuery(pageNumber,pageSize));
            
-            return Results.Ok();
+            return Results.Ok(result);
         }
     }
 }

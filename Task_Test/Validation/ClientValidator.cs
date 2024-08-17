@@ -13,7 +13,6 @@ namespace Task_Test.Validation
             RuleFor(x => x.Job).NotEmpty().NotNull();
             RuleFor(x => x.Nationality).NotEmpty().NotNull();
             RuleForEach(x => x.Phones).SetValidator(new UserPhoneValidator());
-
         }
     }
 

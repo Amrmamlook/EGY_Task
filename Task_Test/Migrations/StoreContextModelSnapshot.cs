@@ -299,7 +299,7 @@ namespace Task_Test.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("UserPhone");
+                    b.ToTable("UserPhone", (string)null);
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>
