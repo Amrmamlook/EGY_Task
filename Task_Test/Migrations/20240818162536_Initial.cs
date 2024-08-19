@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Task_Test.Migrations
 {
     /// <inheritdoc />
-    public partial class intial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,17 +34,6 @@ namespace Task_Test.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar", nullable: true),
-                    District = table.Column<string>(type: "nvarchar", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar", nullable: true),
-                    Natinality = table.Column<string>(type: "nvarchar", nullable: true),
-                    Job = table.Column<string>(type: "nvarchar", nullable: true),
-                    Residence = table.Column<string>(type: "nvarchar", nullable: true),
-                    AccountCreationDate = table.Column<string>(type: "nvarchar(10)", nullable: true),
-                    AddedByUserId = table.Column<int>(type: "int", nullable: true),
-                    ModifiedBY = table.Column<int>(type: "int", nullable: true),
-                    DateModified = table.Column<string>(type: "nvarchar(10)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -172,25 +161,67 @@ namespace Task_Test.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    District = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Natinality = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Job = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Residence = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    AccountCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    AddedByUserId = table.Column<int>(type: "int", nullable: false),
+                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    DateModified = table.Column<DateOnly>(type: "date", nullable: true),
+                    SalesMan = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerClassifications = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerSource = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_AppUser_AddedByUserId",
+                        column: x => x.AddedByUserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Clients_AppUser_Id",
+                        column: x => x.Id,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Clients_AppUser_ModifiedBy",
+                        column: x => x.ModifiedBy,
+                        principalTable: "AppUser",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPhone",
                 columns: table => new
                 {
                     UserPhoneId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientId = table.Column<int>(type: "int", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar", nullable: false),
-                    TelephoneOne = table.Column<string>(type: "nvarchar", nullable: false),
-                    TelephoneTwo = table.Column<string>(type: "nvarchar", nullable: false),
-                    WhatsApp = table.Column<string>(type: "nvarchar", nullable: false),
+                    Mobile = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    TelephoneOne = table.Column<string>(type: "nvarchar(200)", nullable: true),
+                    TelephoneTwo = table.Column<string>(type: "nvarchar(200)", nullable: true),
+                    WhatsApp = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     CountryCode = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserPhone", x => x.UserPhoneId);
                     table.ForeignKey(
-                        name: "FK_UserPhone_AppUser_ClientId",
+                        name: "FK_UserPhone_Clients_ClientId",
                         column: x => x.ClientId,
-                        principalTable: "AppUser",
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -200,9 +231,9 @@ namespace Task_Test.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "42fa48fb-20ac-421f-9a92-bf21b75c0203", "Client", "CLIENT" },
-                    { 2, "21c030b2-0bd7-4b3a-908d-e2de073840fc", "Admin", "ADMIN" },
-                    { 3, "1014e287-6b7b-47db-9325-facbec8f41e1", "SubAdmin", "SUBADMIN" }
+                    { 1, "ee82cc45-40cc-4fe6-9ef8-303918493a43", "Client", "CLIENT" },
+                    { 2, "74596a36-bfd2-4ef8-9f7b-65233b1509da", "Admin", "ADMIN" },
+                    { 3, "593c4150-37db-4fa5-b357-0f22fa74fb1c", "SubAdmin", "SUBADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -243,6 +274,16 @@ namespace Task_Test.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Clients_AddedByUserId",
+                table: "Clients",
+                column: "AddedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_ModifiedBy",
+                table: "Clients",
+                column: "ModifiedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserPhone_ClientId",
                 table: "UserPhone",
                 column: "ClientId");
@@ -271,6 +312,9 @@ namespace Task_Test.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppRole");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "AppUser");

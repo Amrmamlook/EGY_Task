@@ -2,7 +2,7 @@
 using PhoneNumbers;
 using Task_Test.Medatior.Command;
 
-namespace Task_Test.Validation
+namespace Task_Test.Filters.Validation
 {
     public class UserPhoneValidator : AbstractValidator<UserPhoneDto>
     {
@@ -38,7 +38,7 @@ namespace Task_Test.Validation
             var phoneNumberUtil = PhoneNumberUtil.GetInstance();
             var numberProto = phoneNumberUtil.Parse(phoneNumber, "EG");
 
-          
+
             var numberType = phoneNumberUtil.GetNumberType(numberProto);
             return phoneNumberUtil.IsValidNumber(numberProto) && numberType == PhoneNumberType.FIXED_LINE;
         }

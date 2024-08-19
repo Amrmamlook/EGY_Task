@@ -6,6 +6,7 @@ namespace Task_Test.DataContext.Configuration
     {
         public void Configure(EntityTypeBuilder<Client> builder)
         {
+
             builder.Property(x => x.Name).HasColumnType("nvarchar(50)");
             builder.Property(x => x.District).HasColumnType("nvarchar(200)");
             builder.Property(x => x.Address).HasColumnType("nvarchar(200)");

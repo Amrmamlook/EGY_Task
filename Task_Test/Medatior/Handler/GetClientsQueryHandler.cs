@@ -20,9 +20,12 @@ namespace Task_Test.Medatior.Handler
                     Job = c.Job,
                     Residence = c.Residence,
                     AddedBy = c.AddedByUser.UserName,
-                    AccountCreationDate = c.AccountCreationDate,
+                    AccountCreationDate = c.AccountCreationDate.ToString(),
                     ModifiedBy = c.ModifiedByUser != null ? c.ModifiedByUser.UserName : null,
-                    DateModified = c.DateModified
+                    DateModified = c.DateModified.ToString(),
+                    SalesMan = c.SalesMan,
+                    Description= c.Description,
+                    CustomerClassification = c.CustomerClassifications,
                 }).OrderByDescending(x=>x.AccountCreationDate);
 
             var Clients = await PageList<ClientDto>.CreateAsync(ClientsResponseDto, 

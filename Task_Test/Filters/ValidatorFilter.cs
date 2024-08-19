@@ -13,12 +13,11 @@ namespace Planta_BackEnd.Filters
 
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
-            var validatable = context.Arguments.SingleOrDefault(x=>x?.GetType()==typeof(T)) as T;
-            if(validatable is null)
+            if (context.Arguments.SingleOrDefault(x => x?.GetType() == typeof(T)) is not T validatable)
             {
                 return Results.BadRequest();
             }
-          var validationResult =await  _validator.ValidateAsync(validatable);
+            var validationResult =await  _validator.ValidateAsync(validatable);
             if(!validationResult.IsValid)
             {
                 var errorResponse = validationResult.Errors

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Task_Test.Options.Response
 {
@@ -11,13 +10,25 @@ namespace Task_Test.Options.Response
         public string Job { get; set; }
         [JsonPropertyName("الاقامة")]
         public string Residence { get; set; }
-        [JsonPropertyName("أضيف بواسطة")]
+
+        [JsonPropertyName("أضيف_بواسطة")]
         public string AddedBy { get; set; }
-        [JsonPropertyName("تاريخ الادخال")]
-        public DateOnly AccountCreationDate { get; set; }
-        [JsonPropertyName("تم التعديل بواسطة")]
+
+        [JsonPropertyName("تاريخ_الادخال")]
+        public string  AccountCreationDate { get; set; }
+
+        [JsonPropertyName("تم_التعديل_بواسطة")]
         public string? ModifiedBy { get; set; }
-        [JsonPropertyName("تاريخ التعديل")]
-        public DateOnly? DateModified { get; set; }
+        [JsonPropertyName("تاريخ_التعديل")]
+        public string? DateModified { get; set; }
+
+        [JsonPropertyName("رجل_المبيعات")]
+        public string? SalesMan { get; set; }
+       
+        [JsonPropertyName("التصنيف")]
+        public string? CustomerClassification { get; set; }
+      
+        [JsonPropertyName("التوصيف")]
+        public string? Description { get; set; }
     }
 }

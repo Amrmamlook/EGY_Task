@@ -54,21 +54,21 @@ namespace Task_Test.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "95b245c8-facd-4f46-b3ad-10bd9224eee8",
+                            ConcurrencyStamp = "ee82cc45-40cc-4fe6-9ef8-303918493a43",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "26fa8777-99e9-4b58-8c04-ab3099fb8771",
+                            ConcurrencyStamp = "74596a36-bfd2-4ef8-9f7b-65233b1509da",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "51df5fca-3bd0-4eb4-981c-39752a1f6d5f",
+                            ConcurrencyStamp = "593c4150-37db-4fa5-b357-0f22fa74fb1c",
                             Name = "SubAdmin",
                             NormalizedName = "SUBADMIN"
                         });
@@ -115,11 +115,6 @@ namespace Task_Test.Migrations
                         .IsConcurrencyToken()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -176,9 +171,7 @@ namespace Task_Test.Migrations
 
                     b.ToTable("AppUser", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.AppUserClaim", b =>
@@ -299,7 +292,7 @@ namespace Task_Test.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("UserPhone", (string)null);
+                    b.ToTable("UserPhone");
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>
@@ -316,8 +309,17 @@ namespace Task_Test.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("CustomerClassifications")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerSource")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly?>("DateModified")
                         .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("District")
                         .IsRequired()
@@ -327,7 +329,7 @@ namespace Task_Test.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("ModifiedBY")
+                    b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -342,7 +344,14 @@ namespace Task_Test.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasDiscriminator().HasValue("Client");
+                    b.Property<string>("SalesMan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("AddedByUserId");
+
+                    b.HasIndex("ModifiedBy");
+
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.AppRoleClaim", b =>
@@ -405,6 +414,29 @@ namespace Task_Test.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>
+                {
+                    b.HasOne("Task_Test.DataContext.Models.User.AppUser", "AddedByUser")
+                        .WithMany()
+                        .HasForeignKey("AddedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Task_Test.DataContext.Models.User.AppUser", null)
+                        .WithOne()
+                        .HasForeignKey("Task_Test.DataContext.Models.User.Client", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Task_Test.DataContext.Models.User.AppUser", "ModifiedByUser")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy");
+
+                    b.Navigation("AddedByUser");
+
+                    b.Navigation("ModifiedByUser");
                 });
 
             modelBuilder.Entity("Task_Test.DataContext.Models.User.Client", b =>

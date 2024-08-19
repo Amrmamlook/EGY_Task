@@ -12,8 +12,8 @@ namespace Task_Test.Endpoints.ClientsEndpoints
         {
             var group = app.MapGroup("api/client").WithTags(Tags.Client);
 
-            group.MapPost( "AddClient",AddClient).AddEndpointFilter<ValidatorFilter<AddClientCommand>>()
-                .RequireAuthorization("Admin");
+            group.MapPost("AddClient", AddClient).AddEndpointFilter<ValidatorFilter<AddClientCommand>>().DisableAntiforgery();
+                //.RequireAuthorization("Admin");
 
             group.MapGet("Clients",GetClients);
         }
@@ -24,8 +24,8 @@ namespace Task_Test.Endpoints.ClientsEndpoints
         }
         static async Task<IResult> GetClients(
            [FromServices] IMediator mediator,
-            int pageNumber = 1,
-            int pageSize = 5)
+           [FromQuery] int pageNumber = 1,
+           [FromQuery] int pageSize = 5)
         {
             var result = await mediator.Send(new GetClientsQuery(pageNumber,pageSize));
            

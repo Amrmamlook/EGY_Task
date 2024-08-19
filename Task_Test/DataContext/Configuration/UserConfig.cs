@@ -12,7 +12,7 @@ namespace Task_Test.DataContext.Configuration
 
             builder.ToTable(nameof(AppUser));
 
-
+            builder.UseTptMappingStrategy();
            
             builder.HasIndex(u => u.NormalizedEmail).HasDatabaseName("EmailIndex");
             builder.HasIndex(u => u.NormalizedUserName).HasDatabaseName("UserNameIndex").IsUnique();
