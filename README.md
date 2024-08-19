@@ -1,6 +1,3 @@
-
-# Project Name
-
 **[EGY-Task]**
 
 ## Description
