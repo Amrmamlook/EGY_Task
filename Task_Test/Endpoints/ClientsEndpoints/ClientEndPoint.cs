@@ -18,6 +18,8 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             group.MapGet("Clients",GetClients);
 
             group.MapPut("update", UpdateClient);
+
+            group.MapPost("addCall", AddCall);
         }
         public static async Task<IResult> AddClient(
             [FromBody]AddClientCommand command , 
@@ -36,9 +38,24 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             return Results.Ok(result);
         }
         public static async Task<IResult> UpdateClient(
-            [FromBody] UdateClientCommand command,
+            [FromForm] UdateClientCommand command,
             [FromServices] IMediator mediator)
         {
+            var result = await mediator.Send(command);
+            return Results.Ok(result);
+        }
+        public static async Task<IResult> AddCall(int clientId, string? description, string callAdress, string employee, string project, string? callHistory, string typeOfCall, [FromServices] IMediator mediator)
+        {
+            var command = new AddCallCommand
+            {
+                ClientId = clientId,
+                Description = description,
+                CallAdress = callAdress,
+                Employee = employee,
+                project = project,
+                CallHistory = callHistory,
+                TypeOfCall = typeOfCall
+            };
             var result = await mediator.Send(command);
             return Results.Ok(result);
         }

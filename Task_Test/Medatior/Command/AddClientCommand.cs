@@ -1,5 +1,4 @@
 ﻿using Mediator;
-using Microsoft.AspNetCore.Mvc;
 namespace Task_Test.Medatior.Command
 {
     public record AddClientCommand(
@@ -17,19 +16,35 @@ namespace Task_Test.Medatior.Command
         string WhatsApp):IRequest<ResponseResult>;
 
     public record UdateClientCommand(
-      [FromQuery] int ClientId,
-      [FromForm] string ClientName,
-      [FromForm]  string District,
-      [FromForm] string Address,
-      [FromForm] string Nationality,
-      [FromForm] string Job,
-      [FromForm] string Residence,
-      [FromForm] string Email,
-      [FromForm] string SalesMan,
-      [FromForm] string CustomerClassification,
-      [FromForm] string Description, string Mobile,
-      [FromForm] string TelephoneOne, string TelephoneTwo,
-      [FromForm] string WhatsApp) : IRequest<ResponseResult>;
+      int ClientId,
+      string ClientName,
+      string District,
+      string Address,
+      string Nationality,
+      string Job,
+      string Residence,
+      string Email,
+      string SalesMan,
+      string CustomerClassification,
+      string Description, string Mobile,
+      string TelephoneOne, string TelephoneTwo,
+      string WhatsApp) : IRequest<ResponseResult>;
+
+    public class AddCallCommand:IRequest<ResponseResult>
+    {
+        public int ClientId { get; set; }
+
+        public string? Description { get; set; }
+      
+        public string CallAdress { get; set; }
+ 
+        public string Employee { get; set; }
+      
+        public string project { get; set; }
+ 
+        public string? CallHistory { get; set; }
+        public string TypeOfCall { get; set; }
+    }
     public class ResponseResult
     {
         public string Message { get; set; }
