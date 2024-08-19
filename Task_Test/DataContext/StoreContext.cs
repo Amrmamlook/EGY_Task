@@ -7,6 +7,7 @@ namespace Task_Test.DataContext
     {
         public DbSet<Client> Clients { get; set; }
         public DbSet<UserPhone> UserPhone { get; set; }
+        public DbSet<Calls> Calls { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StoreContext).Assembly);

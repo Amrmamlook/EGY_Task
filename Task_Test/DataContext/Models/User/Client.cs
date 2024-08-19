@@ -29,5 +29,7 @@ namespace Task_Test.DataContext.Models.User
 
         [ForeignKey("ModifiedBy")]
         public AppUser ModifiedByUser { get; set; }
+
+        public ICollection<Calls>? Calls { get; set; }
     }
 }
