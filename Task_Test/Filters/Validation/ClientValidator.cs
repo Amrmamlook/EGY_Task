@@ -13,7 +13,6 @@ namespace Task_Test.Filters.Validation
             RuleFor(x => x.Address).NotEmpty().MaximumLength(200);
             RuleFor(x => x.Job).NotEmpty().NotNull();
             RuleFor(x => x.Nationality).NotEmpty().NotNull();
-            //RuleForEach(x => x.Phones).SetValidator(new UserPhoneValidator());
 
             RuleFor(x => x.Mobile)
                .Must(BeValidPhoneNumber).WithMessage("Invalid mobile number format")
@@ -43,7 +42,6 @@ namespace Task_Test.Filters.Validation
         {
             var phoneNumberUtil = PhoneNumberUtil.GetInstance();
             var numberProto = phoneNumberUtil.Parse(phoneNumber, "EG");
-
 
             var numberType = phoneNumberUtil.GetNumberType(numberProto);
             return phoneNumberUtil.IsValidNumber(numberProto) && numberType == PhoneNumberType.FIXED_LINE;

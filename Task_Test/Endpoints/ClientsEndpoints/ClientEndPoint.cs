@@ -16,8 +16,12 @@ namespace Task_Test.Endpoints.ClientsEndpoints
                 //.RequireAuthorization("Admin");
 
             group.MapGet("Clients",GetClients);
+
+            group.MapPut("update", UpdateClient);
         }
-        public static async Task<IResult> AddClient( [FromBody]AddClientCommand command , [FromServices] IMediator mediator)
+        public static async Task<IResult> AddClient(
+            [FromBody]AddClientCommand command , 
+            [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
             return Results.Ok(result);
@@ -29,6 +33,13 @@ namespace Task_Test.Endpoints.ClientsEndpoints
         {
             var result = await mediator.Send(new GetClientsQuery(pageNumber,pageSize));
            
+            return Results.Ok(result);
+        }
+        public static async Task<IResult> UpdateClient(
+            [FromBody] UdateClientCommand command,
+            [FromServices] IMediator mediator)
+        {
+            var result = await mediator.Send(command);
             return Results.Ok(result);
         }
     }

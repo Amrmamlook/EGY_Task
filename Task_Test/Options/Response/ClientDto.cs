@@ -4,6 +4,8 @@ namespace Task_Test.Options.Response
 {
     public class ClientDto
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("اسم_العميل")]
         public string Name { get; set; }
         [JsonPropertyName("الوظيفة")]

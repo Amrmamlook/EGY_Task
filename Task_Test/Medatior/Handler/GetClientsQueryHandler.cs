@@ -17,6 +17,7 @@ namespace Task_Test.Medatior.Handler
                 var ClientsResponseDto =  query.Select(c => new ClientDto
                 {
                     Name = c.Name,
+                    Id = c.Id,
                     Job = c.Job,
                     Residence = c.Residence,
                     AddedBy = c.AddedByUser.UserName,
