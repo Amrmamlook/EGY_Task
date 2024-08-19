@@ -7,7 +7,7 @@
         public string CallAdress { get; set; }
         public string Employee { get; set; }
         public string Project { get; set; }
-        public DateOnly CallHistory { get; set; }
+        public string CallHistory { get; set; }
         public string TypeOfCall { get; set; }
     }
 }

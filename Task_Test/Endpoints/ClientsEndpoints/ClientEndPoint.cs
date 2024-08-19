@@ -20,6 +20,8 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             group.MapPut("update", UpdateClient);
 
             group.MapPost("addCall", AddCall);
+
+            group.MapGet("calls", GetCallsOfClient);
         }
         public static async Task<IResult> AddClient(
             [FromBody]AddClientCommand command , 
@@ -42,6 +44,16 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(command);
+            return Results.Ok(result);
+        }
+
+        public static async Task<IResult> GetCallsOfClient(
+           [FromServices] IMediator mediator,
+           [FromQuery] int ClientId,
+           [FromQuery] int pageNumber = 1,
+           [FromQuery] int pageSize = 5)
+        {
+            var result = await mediator.Send(new GetCallsOfClientQuery(ClientId, pageNumber,pageSize));
             return Results.Ok(result);
         }
         public static async Task<IResult> AddCall(int clientId, string? description, string callAdress, string employee, string project, string? callHistory, string typeOfCall, [FromServices] IMediator mediator)
