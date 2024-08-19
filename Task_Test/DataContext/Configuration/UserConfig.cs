@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Task_Test.DataContext.Models.User;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 
 namespace Task_Test.DataContext.Configuration
 {

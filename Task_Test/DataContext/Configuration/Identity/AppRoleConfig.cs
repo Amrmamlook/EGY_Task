@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Task_Test.DataContext.Models.User;
-
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Planta_BackEnd.DataContext.Config.Identity
 {
     public class AppRoleConfig : IEntityTypeConfiguration<AppRole>
