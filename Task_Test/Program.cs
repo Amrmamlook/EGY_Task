@@ -1,5 +1,6 @@
 
 using Task_Test.Endpoints.AuthEndpoints;
+using Task_Test.Endpoints.CallsEndpoints;
 using Task_Test.Endpoints.ClientsEndpoints;
 using Task_Test.Service;
 using Task_Test.Service.Interface;
@@ -90,6 +91,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapClientEndpoints();
 app.MapAuthEnPoints();
+app.MapCallsEndPoints();
 app.UseCors(cp => cp.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseStaticFiles();
 app.Run();
