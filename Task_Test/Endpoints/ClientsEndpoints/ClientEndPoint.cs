@@ -12,12 +12,15 @@ namespace Task_Test.Endpoints.ClientsEndpoints
         {
             var group = app.MapGroup("api/client").WithTags(Tags.Client);
 
-            group.MapPost("AddClient", AddClient).AddEndpointFilter<ValidatorFilter<AddClientCommand>>().DisableAntiforgery();
+            group.MapPost("AddClient", AddClient)
+                .AddEndpointFilter<ValidatorFilter<AddClientCommand>>().DisableAntiforgery();
                 //.RequireAuthorization("Admin");
 
             group.MapGet("Clients",GetClients);
 
-            group.MapPut("update", UpdateClient);
+            group.MapGet("{clientId}", GetClientById);
+
+            group.MapPut("/{clientId}/update", UpdateClient);
         }
         public static async Task<IResult> AddClient(
             [FromBody]AddClientCommand command , 
@@ -26,6 +29,16 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             var result = await mediator.Send(command);
             return Results.Ok(result);
         }
+
+        public static async Task<IResult> GetClientById([FromRoute]int clientId,[FromServices]IMediator mediator)
+        {
+            var result = await mediator.Send(new GetClientByIdQuery(clientId));
+            return result.Match(
+                _=> Results.NotFound(),
+                _=> Results.Ok(result.AsT1)
+                );
+        }
+
         static async Task<IResult> GetClients(
         [FromServices] IMediator mediator,
         [FromQuery] int pageNumber = 1,
@@ -41,10 +54,14 @@ namespace Task_Test.Endpoints.ClientsEndpoints
         }
 
         public static async Task<IResult> UpdateClient(
-            [FromForm] UdateClientCommand command,
+            [FromRoute] int clientId,
+             UdateClientCommand command,
             [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(command);
+            var updatedCommand = command with { ClientId = clientId };
+
+            var result = await mediator.Send(updatedCommand);
+
             return Results.Ok(result);
         }
     }

@@ -1,8 +1,9 @@
 ﻿using Mediator;
+using Microsoft.AspNetCore.Mvc;
 namespace Task_Test.Medatior.Command
 {
     public record AddClientCommand(
-        string ClientName, 
+        string Name, 
         string District,
         string Address, 
         string Nationality, 

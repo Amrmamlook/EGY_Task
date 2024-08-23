@@ -8,7 +8,7 @@ namespace Task_Test.Filters.Validation
     {
         public ClientValidator()
         {
-            RuleFor(x => x.ClientName).NotEmpty().MaximumLength(50);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
             RuleFor(x => x.District).NotEmpty().NotNull();
             RuleFor(x => x.Address).NotEmpty().MaximumLength(200);
             RuleFor(x => x.Job).NotEmpty().NotNull();
