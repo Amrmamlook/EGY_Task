@@ -6,5 +6,7 @@ using Task_Test.Options.Response;
 namespace Task_Test.Medatior.Query
 {
     public record GetClientsQuery([FromQuery]int PageNumber,[FromQuery] int PageSize) :IRequest<PageList<ClientDto>>;
+
+
     public record GetCallsOfClientQuery([FromQuery] int ClientId, [FromQuery] int PageNumber, [FromQuery] int PageSize) :IRequest<PageList<CallDto>>;
 }

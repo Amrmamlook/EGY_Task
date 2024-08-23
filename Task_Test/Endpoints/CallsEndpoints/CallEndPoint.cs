@@ -20,6 +20,7 @@ namespace Task_Test.Endpoints.CallsEndpoints
           [FromQuery] int pageNumber = 1,
           [FromQuery] int pageSize = 5)
         {
+            if (pageNumber <= 0 || pageSize <= 0) return Results.BadRequest("Page number and page size must be positive integers.");
             var result = await mediator.Send(new GetCallsOfClientQuery(ClientId, pageNumber, pageSize));
             return Results.Ok(result);
         }

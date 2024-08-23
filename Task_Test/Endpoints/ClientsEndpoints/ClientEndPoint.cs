@@ -27,14 +27,19 @@ namespace Task_Test.Endpoints.ClientsEndpoints
             return Results.Ok(result);
         }
         static async Task<IResult> GetClients(
-           [FromServices] IMediator mediator,
-           [FromQuery] int pageNumber = 1,
-           [FromQuery] int pageSize = 5)
+        [FromServices] IMediator mediator,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 5)
         {
-            var result = await mediator.Send(new GetClientsQuery(pageNumber,pageSize));
-           
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                return Results.BadRequest("Page number and page size must be positive integers.");
+            }
+            var result = await mediator.Send(new GetClientsQuery(pageNumber, pageSize));
+
             return Results.Ok(result);
         }
+
         public static async Task<IResult> UpdateClient(
             [FromForm] UdateClientCommand command,
             [FromServices] IMediator mediator)
