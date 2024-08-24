@@ -7,7 +7,7 @@ namespace Task_Test.Medatior.Handler
     {
         public async ValueTask<ResponseResult> Handle(AddCallCommand request, CancellationToken cancellationToken)
         {
-            var existingClient = await _db.Clients.FindAsync([request.ClientId], cancellationToken: cancellationToken);
+            var existingClient = await _db.Clients.FindAsync(request.ClientId,cancellationToken);
             if (existingClient is null)
             {
                 return new ResponseResult

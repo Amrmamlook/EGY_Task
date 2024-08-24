@@ -6,3 +6,4 @@ global using Task_Test.DataContext;
 global using Task_Test.DataContext.Models.User;
 global using Task_Test.Options.Config;
 global using FluentValidation.AspNetCore;
+global using Mediator;

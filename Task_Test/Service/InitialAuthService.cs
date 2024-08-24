@@ -15,13 +15,13 @@ namespace Task_Test.Service
             var existingUserNameOwner = await _userManager.FindByNameAsync(accountRequest.UserName);
             if (existingUserNameOwner != null)
             {
-                return new AuthResult { Errors = ["UserName is used"] };
+                return new AuthResult { Errors =  new List<string>(){"UserName is used"} };
             }
 
             var existingEmailOwner = await _userManager.FindByEmailAsync(accountRequest.Email);
             if (existingEmailOwner != null)
             {
-                return new AuthResult { Errors = ["Email is used"] };
+                return new AuthResult { Errors = new List<string>(){"Email is used"} };
             }
 
             AppUser newUser = new()
@@ -34,13 +34,13 @@ namespace Task_Test.Service
 
             var commitResult = await _userManager.CreateAsync(newUser, accountRequest.Password);
             if (commitResult == null)
-                return new AuthResult { Errors = ["Something went wrong"] };
+                return new AuthResult { Errors = new List<string>(){"Something went wrong"} };
 
             if (!commitResult.Succeeded)
             {
                 var authResult = new AuthResult()
                 {
-                    Errors = []
+                    Errors = new List<string>()
                 };
 
                 foreach (var error in commitResult.Errors)
@@ -64,7 +64,7 @@ namespace Task_Test.Service
         }
         public async Task<AuthResult> GetToken(TokenRequest tokenRequest)
         {
-            var wrongResult = new AuthResult { Errors = ["Invalid Credentials"] };
+            var wrongResult = new AuthResult { Errors = new List<string>(){"Invalid Credentials"}  };
 
             var existingUserNameOwner = await _userManager.FindByNameAsync(tokenRequest.UserName);
             var existingEmailOwner = await _userManager.FindByEmailAsync(tokenRequest.UserName);
@@ -93,7 +93,7 @@ namespace Task_Test.Service
 
             var userClaims = await _userManager.GetClaimsAsync(appUser);
             var roles = await _userManager.GetRolesAsync(appUser);
-            IList<Claim> userRoleClaims = [];
+            IList<Claim> userRoleClaims = new List<Claim>();
             foreach (var role in roles)
             {
                 if (role != null)
@@ -138,6 +138,8 @@ namespace Task_Test.Service
             return authResult;
         }
     }
+     
+    
 }
 
 

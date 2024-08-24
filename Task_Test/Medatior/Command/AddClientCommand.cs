@@ -16,20 +16,22 @@ namespace Task_Test.Medatior.Command
         string TelephoneOne, string TelephoneTwo,
         string WhatsApp):IRequest<ResponseResult>;
 
-    public record UdateClientCommand(
-      int ClientId,
-      string ClientName,
-      string District,
-      string Address,
-      string Nationality,
-      string Job,
-      string Residence,
-      string Email,
-      string SalesMan,
-      string CustomerClassification,
-      string Description, string Mobile,
-      string TelephoneOne, string TelephoneTwo,
-      string WhatsApp) : IRequest<ResponseResult>;
+    public record UpdateClientCommand(
+        string Name,
+        string District,
+        string Address,
+        string Nationality,
+        string Job,
+        string Residence,
+        string Email,
+        string SalesMan,
+        string CustomerClassification,
+        string Description, 
+        string Mobile,
+        string TelephoneOne, 
+        string TelephoneTwo,
+        string WhatsApp) : IRequest<ResponseResult>;
+
     public class ResponseResult
     {
         public string Message { get; set; }

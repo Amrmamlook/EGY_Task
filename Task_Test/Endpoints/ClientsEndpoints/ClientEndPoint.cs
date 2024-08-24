@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Planta_BackEnd.Filters;
 using Task_Test.Medatior.Command;
 using Task_Test.Medatior.Query;
+using Task_Test.Service.Interface;
 
 namespace Task_Test.Endpoints.ClientsEndpoints
 {
@@ -20,7 +21,7 @@ namespace Task_Test.Endpoints.ClientsEndpoints
 
             group.MapGet("{clientId}", GetClientById);
 
-            group.MapPut("/{clientId}/update", UpdateClient);
+            group.MapPut("update/{clientId}", UpdateClient);
         }
         public static async Task<IResult> AddClient(
             [FromBody]AddClientCommand command , 
@@ -39,7 +40,8 @@ namespace Task_Test.Endpoints.ClientsEndpoints
                 );
         }
 
-        static async Task<IResult> GetClients(
+      private  static async Task<IResult> GetClients
+      (
         [FromServices] IMediator mediator,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 5)
@@ -55,13 +57,14 @@ namespace Task_Test.Endpoints.ClientsEndpoints
 
         public static async Task<IResult> UpdateClient(
             [FromRoute] int clientId,
-             UdateClientCommand command,
-            [FromServices] IMediator mediator)
+            UpdateClientCommand command,
+            [FromServices] IClientService clientService,
+            CancellationToken cancellationToken)
         {
-            var updatedCommand = command with { ClientId = clientId };
-
-            var result = await mediator.Send(updatedCommand);
-
+            
+            //var result = await mediator.Send(command);
+            //return Results.Ok(result);
+            var result = await clientService.UpdateClientAsync(clientId,command,cancellationToken);
             return Results.Ok(result);
         }
     }

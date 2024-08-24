@@ -1,10 +1,9 @@
-
 using Task_Test.Endpoints.AuthEndpoints;
 using Task_Test.Endpoints.CallsEndpoints;
 using Task_Test.Endpoints.ClientsEndpoints;
 using Task_Test.Service;
 using Task_Test.Service.Interface;
-
+using Mediator;
 var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddControllers().AddFluentValidation(x =>
@@ -23,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
         x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         .EnableSensitiveDataLogging();
    });
-
+  
    builder.Services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Transient);
 
     #region    Config of Identity
@@ -71,6 +70,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #endregion
 
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddCors();
 var app = builder.Build();
 
